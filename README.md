@@ -63,23 +63,28 @@ The infrastructure includes the following components:
    ```bash
    git clone https://github.com/your-repo/simulated_iot_infrastructure.git
    cd simulated_iot_infrastructure
+
 2. Set up the Python environment:
-   Create a virtual environment:
-   ```bash
-   python -m venv .venv
-   Activate the virtual environment:
-   On Linux/macOS:
-   ```bash
-   source .venv/bin/activate
-   On Windows:
-   ```bash
-   .venv\Scripts\activate
-   Install dependencies:
-   ```bash
-   pip install -r requirements.txt
+      a. Create a virtual environment:
+      ```bash
+      python -m venv .venv
+   
+      b. Activate the virtual environment:
+      @ On Linux/macOS:
+      ```bash
+      source .venv/bin/activate
+      @ On Windows:
+      ```bash
+      .venv\Scripts\activate
+      
+      c. Install dependencies:
+      ```bash
+      pip install -r requirements.txt
+
 3. Start the services:
    ```bash
    docker-compose up -d
+
 4. Access the following:
    Prometheus: http://localhost:9090
    Grafana: http://localhost:3100
