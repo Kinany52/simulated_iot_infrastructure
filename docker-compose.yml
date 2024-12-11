@@ -1,0 +1,66 @@
+services:
+  sensor_simulator:
+    build:
+      context: ./sensor_simulator
+      dockerfile: Dockerfile.sensor
+    restart: always
+    depends_on: # Ensuring data_collector starts first before this service
+      data_collector:
+        condition: service_healthy # This condition relies on the healthcheck configuration of the data_collector. It ensuring data_collector is healthy before starting this service
+
+  data_collector:
+    build:
+      context: ./data_collector
+      dockerfile: Dockerfile.collector
+    environment:
+      - INFLUXDB_URL=${INFLUXDB_URL}
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
+      - INFLUXDB_ORG=${INFLUXDB_ORG}
+      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
+    ports:
+      - "5000:5000"
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"] # Checks if the Data Collector's endpoint is reachable
+      interval: 10s       # Interval between health checks
+      timeout: 5s         # Maximum time for a single check
+      retries: 3          # Number of retries before marking as unhealthy
+
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+      - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+    environment:
+      - INFLUXDB_CONFIG_PATH=/etc/influxdb/influxdb.conf
+    #  - DOCKER_INFLUXDB_INIT_MODE=setup # Only considered in initial setup or after reinitialization of the database
+    #  - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USERNAME}
+    #  - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
+    #  - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
+    #  - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3100:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: always
+
+volumes:
+  influxdb-data:
+  grafana-data:
+  prometheus-data:

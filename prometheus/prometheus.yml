@@ -1,0 +1,18 @@
+global:
+  scrape_interval: 15s  # Default scrape interval
+
+scrape_configs:
+  # Monitor Prometheus itself
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Monitor Data Collector
+  - job_name: "data_collector"
+    static_configs:
+      - targets: ["data_collector:8000"]
+
+  # Monitor InfluxDB
+  - job_name: "influxdb"
+    static_configs:
+      - targets: ["influxdb:8086"]

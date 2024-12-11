@@ -1,0 +1,11 @@
+
+{
+    "_comment1": "You only need custom_dashboard.json if:",
+
+    "_comment2": "You want to provision dashboards automatically when the container starts.",
+
+    "_comment3": "This is useful for:",
+
+    "_comment4": "a. Sharing preconfigured dashboards across environments.",
+    "_comment5": "b. Automating the setup of dashboards in a fresh Grafana installation."
+}

@@ -1,0 +1,28 @@
+# Ignore sensitive environment variables
+.env
+
+# Ignore Docker volumes
+volumes/
+influxdb-data/
+grafana-data/
+prometheus-data/
+
+# Ignore IDE/editor-specific files
+*.log
+.vscode/
+.idea/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore Python project dependencies
+.venv/
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary Docker files
+docker-compose.override.yml

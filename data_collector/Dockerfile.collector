@@ -1,0 +1,20 @@
+# Base image
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy application code
+COPY data_collector.py .
+
+# Install Python dependencies
+RUN pip install flask influxdb-client prometheus-client python-dotenv
+
+# Update package lists and install curl
+RUN apt-get update && apt-get install -y curl && apt-get clean
+
+# Expose Flask's default port (optional for clarity)
+EXPOSE 5000
+
+# Start the application
+CMD ["python", "data_collector.py"]
