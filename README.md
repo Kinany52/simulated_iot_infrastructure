@@ -52,8 +52,10 @@ The infrastructure includes the following components:
 ![Architecture Diagram](path/to/diagram.png) <!-- Add a path or link to your diagram -->
 
 ## Setup Instructions
+
 ### Prerequisites
 - Docker and Docker Compose installed.
+- Python 3.9 or later installed.
 - A modern browser for accessing Grafana and Prometheus UIs.
 
 ### Steps
@@ -61,10 +63,24 @@ The infrastructure includes the following components:
    ```bash
    git clone https://github.com/your-repo/simulated_iot_infrastructure.git
    cd simulated_iot_infrastructure
-2. Start the services:
+2. Set up the Python environment:
+   Create a virtual environment:
+   ```bash
+   python -m venv .venv
+   Activate the virtual environment:
+   On Linux/macOS:
+   ```bash
+   source .venv/bin/activate
+   On Windows:
+   ```bash
+   .venv\Scripts\activate
+   Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+3. Start the services:
    ```bash
    docker-compose up -d
-3. Access the following:
+4. Access the following:
    Prometheus: http://localhost:9090
    Grafana: http://localhost:3100
    InfluxDB: http://localhost:8086
