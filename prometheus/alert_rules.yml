@@ -1,8 +1,9 @@
 groups:
   - name: sensor-data-related-alerts
     rules:
-      - alert:
-        expr:
-        for:
+      - alert: HighTemperature
+        expr: sensor_data_temperature > 30 # For now I'll set it to 30 degrees (of course Celsius)
+        for: 1m
         labels:
+          severity: warning
         annotations:
