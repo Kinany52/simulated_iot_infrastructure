@@ -1,0 +1,8 @@
+groups:
+  - name: sensor-data-related-alerts
+    rules:
+      - alert:
+        expr:
+        for:
+        labels:
+        annotations:
