@@ -7,3 +7,5 @@ groups:
         labels:
           severity: warning
         annotations:
+          summary: "High temperature detected"
+          description: "The temperature is above 30°C for more than 1 minute."
