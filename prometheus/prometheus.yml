@@ -1,6 +1,15 @@
 global:
   scrape_interval: 15s  # Default scrape interval
 
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - "alertmanager:9093"  # Alertmanager's address; I might change this later
+
+rule_files:
+  - "alert_rules.yml"  # I already created the alert rules file in the current dir
+
 scrape_configs:
   # Monitor Prometheus itself
   - job_name: "prometheus"
