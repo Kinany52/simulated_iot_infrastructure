@@ -18,7 +18,8 @@ services:
       - INFLUXDB_ORG=${INFLUXDB_ORG}
       - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
     ports:
-      - "5000:5000"
+      - "5000:5000" # Flask app for InfluxDB and health checks
+      - "8000:8000"  # Prometheus metrics endpoint
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"] # Checks if the Data Collector's endpoint is reachable
