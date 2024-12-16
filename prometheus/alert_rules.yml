@@ -1,20 +1,11 @@
 groups:
-  - name: sensor-data-related-alerts
+  - name: test-alerts
     rules:
-      - alert: HighTemperature
-        expr: sensor_data_temperature > 30 # For now I'll set it to 30 degrees (of course Celsius)
-        for: 1m # 1 minute for now
-        labels:
-          severity: warning
-        annotations:
-          summary: "High temperature detected"
-          description: "The temperature is above 30°C for more than 1 minute."
-
-      - alert: HighHumidity
-        expr: sensor_data_humidity > 70 # Currently setting it at 70, but might change this later
-        for: 1m # 1 minute for now
+      - alert: TestAlert
+        expr: up == 0
+        for: 2s
         labels:
           severity: critical
         annotations:
-          summary: "High humidity detected"
-          description: "The humidity is above 70% for more than 1 minute."
+          summary: "Test Alert"
+          description: "This is a test alert for targets that are down."
