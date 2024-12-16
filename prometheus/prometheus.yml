@@ -19,7 +19,7 @@ scrape_configs:
   # Monitor Data Collector
   - job_name: "data_collector"
     static_configs:
-      - targets: ["data_collector:8000"]
+      - targets: ["data_collector:8000"] # Port 8000 for Prometheus metrics
 
   # Monitor InfluxDB
   - job_name: "influxdb"
