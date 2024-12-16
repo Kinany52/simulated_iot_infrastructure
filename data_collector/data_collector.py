@@ -1,6 +1,6 @@
 from flask import Flask, request
 from influxdb_client import InfluxDBClient, Point
-from prometheus_client import start_http_server, Counter
+from prometheus_client import start_http_server, Counter, Gauge
 from dotenv import load_dotenv
 import os
 
@@ -11,6 +11,8 @@ load_dotenv()
 
 # Prometheus Metrics
 request_counter = Counter('requests_total', 'Total number of requests', ['method', 'endpoint'])
+temperature_gauge = Gauge('sensor_data_temperature', 'Current temperature in degrees Celsius')
+humidity_gauge = Gauge('sensor_data_humidity', 'Current humidity percentage')
 
 @app.before_request
 def before_request():
@@ -33,6 +35,10 @@ def collect_data():
     data = request.json
     print(f"Received data: {data}")
 
+    # Update Prometheus metrics
+    temperature_gauge.set(data["temperature"])
+    humidity_gauge.set(data["humidity"])
+
     # Write data to InfluxDB
     point = Point("sensor_data") \
         .field("temperature", data["temperature"]) \
@@ -51,6 +57,5 @@ def health_check():
 
 if __name__ == "__main__":
     print("Starting Data Collector...")
-     # Start Prometheus metrics server on port 8000
-    start_http_server(8000)  
-    app.run(host="0.0.0.0", port=5000)  # Flask app serves other endpoints on port 5000
+    start_http_server(8000) # Start Prometheus metrics server on port 8000 | Prometheus metrics exposed at /metrics on port 8000
+    app.run(host="0.0.0.0", port=5000) # Flask app serves other endpoints on port 5000
