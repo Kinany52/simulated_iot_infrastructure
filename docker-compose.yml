@@ -62,7 +62,7 @@ services:
     ports:
       - "9093:9093" # Alertmanager UI
     volumes:
-      - ./alertmanager:/etc/alertmanager
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
       - '--log.level=info'
