@@ -57,7 +57,7 @@ services:
       - prometheus-data:/prometheus
   
   alertmanager:
-    image: prom/alertmanager:latest
+    image: custom-alertmanager
     container_name: alertmanager
     ports:
       - "9093:9093" # Alertmanager UI

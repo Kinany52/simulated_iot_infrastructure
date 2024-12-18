@@ -1,0 +1,10 @@
+# Stage 1: Build envsubst
+FROM alpine:latest AS builder
+RUN apk add --no-cache gettext
+
+# Stage 2: Alertmanager with envsubst
+FROM prom/alertmanager:latest
+COPY --from=builder /usr/bin/envsubst /usr/local/bin/envsubst
+
+# Set the entrypoint to use envsubst and then start Alertmanager
+ENTRYPOINT ["/bin/sh", "-c", "envsubst < /etc/alertmanager/alertmanager.yml.template > /etc/alertmanager/alertmanager.yml && /bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml --log.level=info"]
