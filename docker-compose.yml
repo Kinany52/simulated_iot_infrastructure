@@ -62,15 +62,15 @@ services:
     ports:
       - "9093:9093" # Alertmanager UI
     volumes:
-      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - ./alertmanager/alertmanager.yml.template:/etc/alertmanager/alertmanager.yml.template:ro
     environment:
-     - SMTP_AUTH_USERNAME=${SMTP_AUTH_USERNAME}
-     - SMTP_AUTH_PASSWORD=${SMTP_AUTH_PASSWORD}
-     - SMTP_AUTH_TO_EMAIL=${SMTP_AUTH_TO_EMAIL}
-    command:
-      - '--config.file=/etc/alertmanager/alertmanager.yml'
-      - '--log.level=info'
-
+      - SMTP_AUTH_USERNAME=${SMTP_AUTH_USERNAME}
+      - SMTP_AUTH_PASSWORD=${SMTP_AUTH_PASSWORD}
+      - SMTP_AUTH_TO_EMAIL=${SMTP_AUTH_TO_EMAIL}
+    entrypoint: >
+      /bin/sh -c 
+      "envsubst < /etc/alertmanager/alertmanager.yml.template > /etc/alertmanager/alertmanager.yml &&
+      /bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml --log.level=info"
 
   grafana:
     image: grafana/grafana:latest
