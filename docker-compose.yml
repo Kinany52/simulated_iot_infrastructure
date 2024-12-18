@@ -68,8 +68,7 @@ services:
       - SMTP_AUTH_PASSWORD=${SMTP_AUTH_PASSWORD}
       - SMTP_AUTH_TO_EMAIL=${SMTP_AUTH_TO_EMAIL}
     entrypoint: >
-      /bin/sh -c 
-      "envsubst < /etc/alertmanager/alertmanager.yml.template > /etc/alertmanager/alertmanager.yml &&
+      /bin/sh -c "/usr/local/bin/envsubst < /etc/alertmanager/alertmanager.yml.template > /etc/alertmanager/alertmanager.yml &&
       /bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml --log.level=info"
 
   grafana:

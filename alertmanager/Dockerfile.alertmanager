@@ -1,10 +1,29 @@
-# Stage 1: Build envsubst
+# Builder stage
 FROM alpine:latest AS builder
-RUN apk add --no-cache gettext
 
-# Stage 2: Alertmanager with envsubst
+# Install gettext and file for debugging
+RUN apk add --no-cache gettext file libc6-compat
+
+# Verify the presence of envsubst
+RUN if [ -f /usr/bin/envsubst ]; then echo "envsubst found in builder"; else echo "envsubst not found in builder"; fi
+
+# Check shared library dependencies for envsubst
+RUN ldd /usr/bin/envsubst || echo "ldd check failed for envsubst in builder"
+
+# Final stage
 FROM prom/alertmanager:latest
+
+# Install dependencies in builder and copy necessary shared libraries
+COPY --from=builder /lib/ld-musl-* /lib/
+COPY --from=builder /usr/lib/libintl.so* /usr/lib/
+COPY --from=builder /usr/lib/libc.musl-* /usr/lib/
 COPY --from=builder /usr/bin/envsubst /usr/local/bin/envsubst
 
-# Set the entrypoint to use envsubst and then start Alertmanager
+# Verify that envsubst exists in the final image (debugging step)
+RUN if [ -f /usr/local/bin/envsubst ]; then echo "envsubst found in final image"; else echo "envsubst not found in final image"; fi
+
+# Check shared library dependencies for envsubst in the final stage
+RUN ldd /usr/local/bin/envsubst || echo "ldd check failed for envsubst in final image"
+
+# Set entrypoint to substitute variables and run Alertmanager
 ENTRYPOINT ["/bin/sh", "-c", "envsubst < /etc/alertmanager/alertmanager.yml.template > /etc/alertmanager/alertmanager.yml && /bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml --log.level=info"]

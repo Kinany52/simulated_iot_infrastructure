@@ -28,4 +28,4 @@ groups:
           severity: critical
         annotations:
           summary: "Test Alert"
-          description: "This is a test alert triggered manually - 15i."
+          description: "This is a test alert triggered manually - 15juliet."
