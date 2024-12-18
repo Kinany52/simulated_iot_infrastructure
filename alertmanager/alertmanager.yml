@@ -1,0 +1,16 @@
+global:
+  smtp_smarthost: 'smtp.gmail.com:587' # SMTP server for sending email, we'll go with Gmail for now
+  smtp_from: ${SMTP_AUTH_USERNAME}
+  smtp_auth_username: ${SMTP_AUTH_USERNAME}
+  smtp_auth_password: ${SMTP_AUTH_PASSWORD}
+  smtp_require_tls: true                # Ensuring TLS is enabled
+
+route:
+  receiver: 'email-alerts' # Option to create different receivers for different alerts (e.g., critical alerts to email, warning alerts to a webhook).
+  repeat_interval: 5m  # Resend the alert every 5 minutes if it is still firing
+
+receivers:
+  - name: 'email-alerts'
+    email_configs:
+      - to: ${SMTP_AUTH_TO_EMAIL}
+        send_resolved: true # Send a notification when the alert is resolved

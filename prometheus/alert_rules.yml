@@ -22,10 +22,10 @@ groups:
   - name: test-alerts
     rules:
       - alert: TestAlert
-        expr: up == 0
-        for: 10s
+        expr: vector(1)  # Always true
+        for: 0s
         labels:
           severity: critical
         annotations:
           summary: "Test Alert"
-          description: "This is a test alert for targets that are down."
+          description: "This is a test alert triggered manually - 14th time."

@@ -63,6 +63,10 @@ services:
       - "9093:9093" # Alertmanager UI
     volumes:
       - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    environment:
+     - SMTP_AUTH_USERNAME=${SMTP_AUTH_USERNAME}
+     - SMTP_AUTH_PASSWORD=${SMTP_AUTH_PASSWORD}
+     - SMTP_AUTH_TO_EMAIL=${SMTP_AUTH_TO_EMAIL}
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
       - '--log.level=info'
