@@ -14,3 +14,6 @@ receivers:
     email_configs:
       - to: "${SMTP_AUTH_TO_EMAIL}"
         send_resolved: true # Send a notification when the alert is resolved
+
+# To see the substituted alertmanager.yml file:
+# docker exec -it alertmanager sh -c "cat /etc/alertmanager/alertmanager.yml"
