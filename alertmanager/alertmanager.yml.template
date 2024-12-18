@@ -1,6 +1,6 @@
 global:
   smtp_smarthost: 'smtp.gmail.com:587' # SMTP server for sending email, we'll go with Gmail for now
-  smtp_from: "${SMTP_AUTH_USERNAME}"
+  smtp_from: "${SMTP_AUTH_USERNAME}" ## double quotes "" added around env variables for envsubst tool to recognize and process
   smtp_auth_username: "${SMTP_AUTH_USERNAME}"
   smtp_auth_password: "${SMTP_AUTH_PASSWORD}"
   smtp_require_tls: true                # Ensuring TLS is enabled
